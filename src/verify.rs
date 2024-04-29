@@ -24,7 +24,7 @@ pub fn verify<'a>(
             .progress_chars("#>-"),
     );
     bar.set_position(num_done as u64);
-    bar.set_message(format!("({percentage:.1} %)"));
+    bar.set_message(format!("({:.1} %)", percentage));
 
     for exercise in exercises {
         let compile_result = match exercise.mode {
@@ -37,21 +37,11 @@ pub fn verify<'a>(
         }
         percentage += 100.0 / total as f32;
         bar.inc(1);
-        bar.set_message(format!("({percentage:.1} %)"));
-        if bar.position() == total as u64 {
-            println!(
-                "Progress: You completed {} / {} exercises ({:.1} %).",
-                bar.position(),
-                total,
-                percentage
-            );
-            bar.finish();
-        }
+        bar.set_message(format!("({:.1} %)", percentage));
     }
     Ok(())
 }
 
-#[derive(PartialEq, Eq)]
 enum RunMode {
     Interactive,
     NonInteractive,
@@ -125,7 +115,7 @@ fn compile_and_test(
             if verbose {
                 println!("{}", output.stdout);
             }
-            if run_mode == RunMode::Interactive {
+            if let RunMode::Interactive = run_mode {
                 Ok(prompt_for_completion(exercise, None, success_hints))
             } else {
                 Ok(true)
@@ -192,25 +182,27 @@ fn prompt_for_completion(
         Mode::Test => "The code is compiling, and the tests pass!",
         Mode::Clippy => clippy_success_msg,
     };
-
+    println!();
     if no_emoji {
-        println!("\n~*~ {success_msg} ~*~\n");
+        println!("~*~ {success_msg} ~*~")
     } else {
-        println!("\n🎉 🎉 {success_msg} 🎉 🎉\n");
+        println!("🎉 🎉  {success_msg} 🎉 🎉")
     }
+    println!();
 
     if let Some(output) = prompt_output {
-        println!(
-            "Output:\n{separator}\n{output}\n{separator}\n",
-            separator = separator(),
-        );
+        println!("Output:");
+        println!("{}", separator());
+        println!("{output}");
+        println!("{}", separator());
+        println!();
     }
     if success_hints {
-        println!(
-            "Hints:\n{separator}\n{}\n{separator}\n",
-            exercise.hint,
-            separator = separator(),
-        );
+        println!("Hints:");
+        println!("{}", separator());
+        println!("{}", exercise.hint);
+        println!("{}", separator());
+        println!();
     }
 
     println!("You can keep working on this exercise,");
@@ -223,14 +215,14 @@ fn prompt_for_completion(
         let formatted_line = if context_line.important {
             format!("{}", style(context_line.line).bold())
         } else {
-            context_line.line
+            context_line.line.to_string()
         };
 
         println!(
             "{:>2} {}  {}",
             style(context_line.number).blue().bold(),
             style("|").blue(),
-            formatted_line,
+            formatted_line
         );
     }
 

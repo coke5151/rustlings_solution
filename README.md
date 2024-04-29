@@ -1,3 +1,7 @@
+# This repo
+
+This is my solution about rustlings.
+
 <div class="oranda-hide">
 
 # rustlings 🦀❤️
@@ -5,6 +9,8 @@
 </div>
 
 Greetings and welcome to `rustlings`. This project contains small exercises to get you used to reading and writing Rust code. This includes reading and responding to compiler messages!
+
+_...looking for the old, web-based version of Rustlings? Try [here](https://github.com/rust-lang/rustlings/tree/rustlings-1)_
 
 Alternatively, for a first-time Rust learner, there are several other resources:
 
@@ -74,13 +80,13 @@ If you get a permission denied message, you might have to exclude the directory 
 
 ## Manually
 
-Basically: Clone the repository at the latest tag, run `cargo install --locked --path .`.
+Basically: Clone the repository at the latest tag, run `cargo install --path .`.
 
 ```bash
 # find out the latest version at https://github.com/rust-lang/rustlings/releases/latest (on edit 5.6.1)
 git clone -b 5.6.1 --depth 1 https://github.com/rust-lang/rustlings
 cd rustlings
-cargo install --locked --force --path .
+cargo install --force --path .
 ```
 
 If there are installation errors, ensure that your toolchain is up to date. For the latest, run:

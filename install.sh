@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo -e "\nLet's get you set up with Rustlings!"
+echo "Let's get you set up with Rustlings!"
 
 echo "Checking requirements..."
 if [ -x "$(command -v git)" ]
@@ -124,7 +124,7 @@ function vercomp() {
 }
 
 RustVersion=$(rustc --version | cut -d " " -f 2)
-MinRustVersion=1.70
+MinRustVersion=1.58
 vercomp "$RustVersion" $MinRustVersion || ec=$?
 if [ ${ec:-0} -eq 2 ]
 then
@@ -137,7 +137,7 @@ fi
 
 Path=${1:-rustlings/}
 echo "Cloning Rustlings at $Path..."
-git clone -q https://github.com/rust-lang/rustlings.git "$Path"
+git clone -q https://github.com/rust-lang/rustlings "$Path"
 
 cd "$Path"
 
@@ -165,7 +165,7 @@ echo "Checking out version $Version..."
 git checkout -q ${Version}
 
 echo "Installing the 'rustlings' executable..."
-cargo install --locked --force --path .
+cargo install --force --path .
 
 if ! [ -x "$(command -v rustlings)" ]
 then
